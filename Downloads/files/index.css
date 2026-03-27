@@ -1,0 +1,442 @@
+/* ============================================================
+   FIX #1: box-sizing: border-box
+   Por defecto, el ancho de un elemento NO incluye padding ni border.
+   Eso hace que width: 100% + padding = más de 100% y rompe el layout.
+   Con border-box, el padding se incluye DENTRO del ancho declarado.
+   El * aplica esto a TODOS los elementos de la página.
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================================
+   VARIABLES CSS
+   Guardan los colores y valores que se repiten.
+   Si querés cambiar el color principal, lo cambiás en UN solo lugar.
+   Se usan así: color: var(--color-primary);
+   ============================================================ */
+:root {
+    --color-primary: #663c32;
+    --color-dark: #1a1008;
+    --color-black: #0d0d0d;
+    --color-white: #f5f0eb;
+    --color-accent: #c9a96e;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Lato', sans-serif;
+    --radius: 16px;
+    --transition: 0.3s ease;
+}
+
+/* ============================================================
+   ESTILOS BASE
+   ============================================================ */
+body {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+img {
+    /* FIX #2: object-fit: cover */
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--color-black);
+    padding: 10px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    /* border-bottom sutil para separar del contenido */
+    border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+.header__logo {
+    /* El logo no usa el img global, tiene tamaños propios */
+    height: 50px;
+    width: 50px;
+    border-radius: 50%; /* lo hace circular */
+    object-fit: cover;
+    /* mix-blend-mode intenta ocultar el fondo blanco si el logo es oscuro */
+    mix-blend-mode: multiply;
+    background-color: transparent;
+}
+
+.header__title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-accent);
+    /* margin-right: auto empuja la nav al extremo derecho */
+    margin-right: auto;
+}
+
+.header__nav {
+    display: flex;
+    gap: 30px;
+}
+
+.header__nav-link {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    opacity: 0.7;
+    transition: opacity var(--transition), color var(--transition);
+}
+
+.header__nav-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+/* ============================================================
+   HERO
+   FIX #3: display flex + align/justify center para centrar el título
+   Sin display: flex, el h2 queda pegado arriba aunque haya height: 95vh
+   ============================================================ */
+.hero {
+    height: 95vh;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.75), rgba(13, 16, 8, 0.95)),
+        url("img/Fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    /* flex para centrar el contenido vertical y horizontalmente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero__subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    opacity: 0.8;
+}
+
+.hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem); /* clamp: mínimo, preferido, máximo — es responsive automático */
+    line-height: 1.1;
+    color: var(--color-white);
+}
+
+.hero__cta {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 14px 40px;
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.hero__cta:hover {
+    background-color: var(--color-white);
+    transform: translateY(-2px); /* sube levemente al hacer hover */
+}
+
+/* ============================================================
+   SECCIÓN DE PRODUCTOS
+   ============================================================ */
+.products {
+    display: flex;
+    background-color: var(--color-black);
+    padding: 40px;
+    gap: 30px;
+}
+
+.main__products-featured {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main__products-featured-title,
+.main__general-products-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--color-accent);
+    border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.main__general-products {
+    flex: 2;
+}
+
+/* FIX #4: grid-template-rows tenía sintaxis rota: repeat(2 auto) sin la coma
+   La sintaxis correcta es repeat(cantidad, tamaño)
+   Con auto-fill y minmax le decimos: poné todas las columnas que quepan,
+   de mínimo 160px. Esto hace el grid adaptable sin media queries. */
+.main__general-products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+}
+
+/* ============================================================
+   CARDS DE PRODUCTOS
+   Antes eran solo imágenes sueltas. Ahora son cards con nombre y precio.
+   ============================================================ */
+.product-card {
+    background-color: var(--color-primary);
+    border-radius: var(--radius);
+    overflow: hidden; /* recorta la imagen dentro del border-radius */
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Unificamos la altura de TODAS las imágenes para que midan lo mismo */
+.product-card__img {
+    height: 220px;
+}
+
+.product-card__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+}
+
+.product-card__name {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.product-card__price {
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-weight: 400;
+}
+
+/* ============================================================
+   ÚLTIMA SECCIÓN: Nosotros + Contacto
+   FIX #5: display: block + align-items no funciona.
+   align-items es exclusivo de flex y grid.
+   Cambié a display: flex + flex-direction: column.
+   ============================================================ */
+.last-section {
+    display: flex;
+    gap: 0;
+}
+
+.about-us,
+.contact {
+    flex: 1;
+    display: flex;             /* FIX: cambiado de block a flex */
+    flex-direction: column;    /* los hijos se apilan verticalmente */
+    align-items: center;       /* ahora sí funciona */
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.about-us {
+    background-color: var(--color-primary);
+}
+
+.contact {
+    background-color: var(--color-dark);
+    border-left: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.about-us__title,
+.contact__title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+}
+
+.about-us__p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    max-width: 420px;
+    opacity: 0.85;
+}
+
+/* ============================================================
+   FORMULARIO DE CONTACTO
+   ============================================================ */
+.contact__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+}
+
+.contact__form-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    /* align-self: end pega la label al fondo de su celda,
+       quedando justo encima del input */
+    align-self: end;
+}
+
+.contact__form-input {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--color-white);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    transition: border-color var(--transition);
+}
+
+.contact__form-input:focus,
+.contact__form-textarea:focus {
+    outline: none; /* quita el borde azul default del navegador */
+    border-color: var(--color-accent);
+}
+
+/* grid-column: 1 / -1 hace que el elemento ocupe TODAS las columnas del grid */
+.contact__form-textarea {
+    grid-column: 1 / -1; /* ocupa las 2 columnas */
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--color-white);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    resize: vertical; /* permite redimensionar solo verticalmente */
+    min-height: 100px;
+    transition: border-color var(--transition);
+}
+
+.contact__form-submit {
+    grid-column: 1 / -1; /* también ocupa todo el ancho */
+    padding: 14px;
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer; /* muestra la manito al pasar el mouse */
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.contact__form-submit:hover {
+    background-color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+    background-color: var(--color-black);
+    padding: 30px;
+    text-align: center;
+    border-top: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+.footer__p-copyright {
+    font-size: 0.85rem;
+    opacity: 0.4;
+    margin-bottom: 4px;
+}
+
+.footer__p-contact {
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    opacity: 0.8;
+}
+
+/* ============================================================
+   RESPONSIVE CON MEDIA QUERIES
+   
+   @media es una condición: "aplicá estos estilos SI la pantalla
+   tiene un ancho máximo de X píxeles".
+   
+   768px es el breakpoint típico para tablets/celulares.
+   Los estilos de acá SOBREESCRIBEN los de arriba para pantallas chicas.
+   ============================================================ */
+@media (max-width: 768px) {
+
+    /* El header apila el logo+título y oculta la nav (simplificado) */
+    .header {
+        padding: 10px 20px;
+    }
+
+    .header__nav {
+        display: none; /* en mobile ocultamos la nav (en el futuro va un menú hamburguesa con JS) */
+    }
+
+    /* Los productos pasan de flex en fila a flex en columna */
+    .products {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    /* El grid de productos pasa a 2 columnas en mobile */
+    .main__general-products-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Nosotros y contacto se apilan verticalmente */
+    .last-section {
+        flex-direction: column;
+    }
+
+    .about-us,
+    .contact {
+        padding: 40px 24px;
+    }
+
+    /* El form pasa a 1 columna */
+    .contact__form {
+        grid-template-columns: 1fr;
+    }
+
+    /* Con 1 columna, el textarea y submit ya no necesitan ocupar "todo" */
+    .contact__form-textarea,
+    .contact__form-submit {
+        grid-column: 1;
+    }
+}

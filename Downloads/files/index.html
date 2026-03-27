@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Sureño</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="img/Favicon.png">
+</head>
+<body>
+
+    <!-- HEADER: sticky, se queda arriba al hacer scroll -->
+    <header class="header">
+        <div class="header__logo-container">
+            <img class="header__logo" src="img/Favicon.png" alt="Logo Café Sureño">
+        </div>
+        <div class="header__title-container">
+            <h1 class="header__title">Café Sureño</h1>
+        </div>
+        <!-- Navegación: links que llevan a secciones de la misma página con anclas (#) -->
+        <nav class="header__nav">
+            <a class="header__nav-link" href="#productos">Productos</a>
+            <a class="header__nav-link" href="#nosotros">Nosotros</a>
+            <a class="header__nav-link" href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <main class="main">
+
+        <!-- HERO: sección grande de bienvenida con imagen de fondo -->
+        <section class="hero">
+            <div class="hero__content">
+                <p class="hero__subtitle">Patagonia Argentina</p>
+                <h2 class="hero__title">El mejor café<br>de especialidad</h2>
+                <!-- Botón que usa ancla para bajar a productos -->
+                <a class="hero__cta" href="#productos">Ver productos</a>
+            </div>
+        </section>
+
+        <!-- PRODUCTOS: id="productos" permite que el link del nav llegue acá -->
+        <div class="products" id="productos">
+
+            <!-- Producto destacado (columna izquierda) -->
+            <section class="main__products-featured">
+                <h3 class="main__products-featured-title">Destacados</h3>
+
+                <!-- Cada producto tiene imagen, nombre y precio -->
+                <div class="product-card product-card--featured">
+                    <img class="product-card__img" src="img/Patagonico.png" alt="Café Patagónico">
+                    <div class="product-card__info">
+                        <span class="product-card__name">Blend Patagónico</span>
+                        <span class="product-card__price">$2.500</span>
+                    </div>
+                </div>
+
+                <div class="product-card product-card--featured">
+                    <img class="product-card__img" src="img/Andino.png" alt="Café Andino">
+                    <div class="product-card__info">
+                        <span class="product-card__name">Origen Andino</span>
+                        <span class="product-card__price">$3.200</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Todos los productos (columna derecha, grilla) -->
+            <section class="main__general-products">
+                <h3 class="main__general-products-title">Todos los productos</h3>
+                <div class="main__general-products-container">
+
+                    <!-- Se repite la misma estructura de card para cada producto -->
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Espresso.png" alt="Espresso">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Espresso</span>
+                            <span class="product-card__price">$1.200</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Americano.png" alt="Americano">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Americano</span>
+                            <span class="product-card__price">$1.400</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Latte.png" alt="Latte">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Latte</span>
+                            <span class="product-card__price">$1.800</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Capuccino.png" alt="Cappuccino">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Cappuccino</span>
+                            <span class="product-card__price">$1.900</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Cold brew.png" alt="Cold Brew">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Cold Brew</span>
+                            <span class="product-card__price">$2.100</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img class="product-card__img" src="img/Flat white.jpg" alt="Flat White">
+                        <div class="product-card__info">
+                            <span class="product-card__name">Flat White</span>
+                            <span class="product-card__price">$2.000</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- SECCIÓN FINAL: Nosotros + Contacto -->
+    <div class="last-section">
+
+        <!-- id="nosotros" para que el nav llegue acá -->
+        <section class="about-us" id="nosotros">
+            <h2 class="about-us__title">Sobre nosotros</h2>
+            <p class="about-us__p">
+                Cafetería especializada en brindar el mejor servicio, con más de 30 años de experiencia. 
+                Ofrecemos café de calidad al mejor precio, con más de 10 variedades para que conozcas 
+                los sabores de toda la Patagonia Argentina.
+            </p>
+        </section>
+
+        <!-- id="contacto" para que el nav llegue acá -->
+        <!-- IMPORTANTE: se removió el action="contact-us" porque no existe ese endpoint -->
+        <section class="contact" id="contacto">
+            <h2 class="contact__title">Contactanos</h2>
+            <form class="contact__form">
+                <label class="contact__form-label" for="name">Nombre</label>
+                <input class="contact__form-input" id="name" type="text" placeholder="Tu nombre">
+
+                <label class="contact__form-label" for="last-name">Apellido</label>
+                <input class="contact__form-input" id="last-name" type="text" placeholder="Tu apellido">
+
+                <label class="contact__form-label" for="email">Email</label>
+                <input class="contact__form-input" id="email" type="email" placeholder="tu@email.com">
+
+                <label class="contact__form-label" for="msg">Mensaje</label>
+                <!-- colspan para que el textarea ocupe todo el ancho del form -->
+                <textarea class="contact__form-textarea" id="msg" placeholder="¿En qué podemos ayudarte?"></textarea>
+
+                <button class="contact__form-submit" type="submit">Enviar mensaje</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p class="footer__p-copyright">© Café Sureño 2026</p>
+        <p class="footer__p-contact">cafesureno@contact.com</p>
+    </footer>
+
+</body>
+</html>
